@@ -1,7 +1,6 @@
 package com.innowise.image.service;
 
 import com.innowise.image.dto.CommentDto;
-
 import java.util.List;
 import java.util.UUID;
 
