@@ -95,7 +95,6 @@ class ImageServiceImplTest {
                 .thenThrow(new RuntimeException("S3 error"));
 
         assertThrows(RuntimeException.class, () -> imageService.uploadImage(file, userId, "desc"));
-
         verify(imageRepository, never()).save(any());
     }
 
