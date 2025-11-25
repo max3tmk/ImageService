@@ -22,7 +22,7 @@ jobs:
           cache: maven
           server-id: github
           server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
+          server-password: GH_PACKAGES_TOKEN
 
       - name: Cache Maven dependencies
         uses: actions/cache@v4
