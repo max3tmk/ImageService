@@ -29,6 +29,7 @@
         <modelmapper.version>3.2.5</modelmapper.version>
         <testcontainers.version>1.21.3</testcontainers.version>
         <kafka.version>3.3.8</kafka.version>
+        <sonar.organization>innowise-max3tmk</sonar.organization>
     </properties>
 
     <dependencyManagement>
