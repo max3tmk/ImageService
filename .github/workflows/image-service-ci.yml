@@ -14,15 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17 with GitHub Packages auth
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-          server-id: github
-          server-username: max3tmk
-          server-password: GH_PACKAGES_TOKEN
+
+      - name: Build with Maven settings
+        run: mvn -s .github/workflows/maven-settings.xml clean package -DskipTests
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Cache Maven dependencies
         uses: actions/cache@v4
