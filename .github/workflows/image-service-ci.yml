@@ -71,7 +71,7 @@ jobs:
           mvn verify sonar:sonar \
             -Dsonar.projectKey=max3tmk_ImageService \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=max3tmk
+            -Dsonar.organization=innowise-max3tmk
 
   docker:
     name: Build and Push Docker Image
