@@ -21,11 +21,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build with Maven settings
-        run: mvn -s .github/workflows/maven-settings.xml clean package -DskipTests
-        env:
-          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
@@ -34,11 +29,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build ImageService
-        run: mvn clean package -DskipTests
+      - name: Build with GitHub Packages auth
+        run: mvn -s .github/workflows/maven-settings.xml clean package
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Run Tests
-        run: mvn test
+        run: mvn -s .github/workflows/maven-settings.xml test
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
   sonarqube:
     name: SonarQube Analysis
@@ -89,16 +88,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Build JAR
+        run: mvn -s .github/workflows/maven-settings.xml clean package -DskipTests
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
-      - name: Build ImageService JAR
-        run: mvn clean package -DskipTests
+      - name: Copy JAR for Docker
+        run: cp target/image-service-*.jar image-service.jar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
